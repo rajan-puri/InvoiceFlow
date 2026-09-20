@@ -1,0 +1,205 @@
+// Prisma Schema for InvoiceFlow Proforma Invoice Generator
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  passwordHash   String
+  name           String
+  companyName    String?
+  phone          String?
+  address        String?
+  gstin          String?
+  currencySymbol      String    @default("₹")
+  role                String    @default("user") // "user" | "admin"
+  isEmailVerified     Boolean   @default(false)
+  verificationToken   String?
+  verificationCode    String?
+  verificationExpires DateTime?
+  lastActiveAt        DateTime  @default(now())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  products       Product[]
+  clients        Client[]
+  invoices       Invoice[]
+  templates      InvoiceTemplate[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  sku         String?
+  description String?
+  price       Float
+  gstRate     Float    @default(18.0) // GST percentage, e.g., 0, 5, 12, 18, 28
+  unit        String   @default("PCS") // PCS, NOS, BOX, KG, MTR, HRS, SET
+  category    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoiceItems InvoiceItem[]
+
+  @@index([userId])
+}
+
+model Client {
+  id              String   @id @default(cuid())
+  userId          String
+  companyName     String
+  contactPerson   String?
+  email           String?
+  phone           String?
+  billingAddress  String?
+  shippingAddress String?
+  gstin           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices        Invoice[]
+
+  @@index([userId])
+}
+
+model Invoice {
+  id                    String        @id @default(cuid())
+  userId                String
+  invoiceNumber         String
+  issueDate             DateTime      @default(now())
+  validUntil            DateTime?
+  status                String        @default("DRAFT") // DRAFT, SENT, ACCEPTED, DECLINED, EXPIRED
+  documentType          String        @default("PROFORMA") // "PROFORMA" | "TAX_INVOICE"
+
+  // Client link or snapshot
+  clientId              String?
+  clientCompanyName     String
+  clientContactPerson   String?
+  clientEmail           String?
+  clientPhone           String?
+  clientBillingAddress  String?
+  clientShippingAddress String?
+  clientGstin           String?
+
+  // Financial calculations
+  subtotal              Float         @default(0.0)
+  discountType          String        @default("PERCENTAGE") // PERCENTAGE or FIXED
+  discountValue         Float         @default(0.0)
+  discountAmount        Float         @default(0.0)
+  gstAmount             Float         @default(0.0)
+  grandTotal            Float         @default(0.0)
+
+  // Additional info
+  notes                 String?
+  terms                 String?
+
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  templateId            String?
+  template              InvoiceTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client                Client?       @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  items                 InvoiceItem[]
+
+  @@index([userId])
+  @@index([invoiceNumber])
+  @@index([templateId])
+  @@index([documentType])
+}
+
+model InvoiceItem {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  productId   String?
+  productName String
+  sku         String?
+  description String?
+  quantity    Float    @default(1.0)
+  unit        String   @default("PCS")
+  unitPrice   Float    @default(0.0)
+  gstRate     Float    @default(0.0) // GST %
+  gstAmount   Float    @default(0.0)
+  lineTotal   Float    @default(0.0) // quantity * unitPrice + gstAmount
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([invoiceId])
+}
+
+model InvoiceTemplate {
+  id                  String    @id @default(cuid())
+  userId              String
+  name                String
+  isDefault           Boolean   @default(false)
+
+  // Layout preset: "MODERN", "CLASSIC", "MINIMAL", "EXECUTIVE", "EMERALD"
+  layoutStyle         String    @default("MODERN")
+
+  // Branding & Styling
+  primaryColor        String    @default("#2563eb")
+  accentColor         String    @default("#0f172a")
+  fontFamily          String    @default("Inter") // "Inter", "Roboto", "Playfair", "Courier", "Geist"
+  fontSize            String    @default("normal") // "compact", "normal", "spacious"
+  logoUrl             String?
+  logoWidth           Int       @default(130) // in px
+  showLogo            Boolean   @default(true)
+
+  // Header & Company details
+  headerTitle         String    @default("PROFORMA INVOICE")
+  headerSubtitle      String?   @default("Valid for 15 business days")
+  showCompanyDetails  Boolean   @default(true)
+
+  // Table Columns
+  showIndex           Boolean   @default(true)
+  showSku             Boolean   @default(true)
+  showHsnSac          Boolean   @default(true)
+  showUnit            Boolean   @default(true)
+  showGstRate         Boolean   @default(true)
+  showGstAmount       Boolean   @default(true)
+  showDiscount        Boolean   @default(true)
+
+  // Bank & Payment
+  showBankDetails     Boolean   @default(true)
+  bankName            String?   @default("HDFC Bank Ltd")
+  accountNumber       String?   @default("50200098765432")
+  ifscCode            String?   @default("HDFC0001234")
+  branchName          String?   @default("Cyber City Branch")
+  upiId               String?   @default("invoiceflow@hdfcbank")
+
+  // Terms, Notes, Signatures
+  showNotes           Boolean   @default(true)
+  notes               String?   @default("Proforma invoice valid for 15 days. Kindly wire 50% advance for immediate processing.")
+  showTerms           Boolean   @default(true)
+  terms               String?   @default("1. All disputes subject to local jurisdiction.\n2. Taxes as applicable per Govt GST rules.\n3. Goods or services once delivered are non-refundable.")
+  showSignature       Boolean   @default(true)
+  signatureTitle      String?   @default("Authorized Signatory")
+  signatureUrl        String?
+  footerText          String?   @default("Thank you for your business! This is a system generated proforma invoice.")
+
+  // Numbering
+  invoicePrefix       String?   @default("PI-")
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices            Invoice[]
+
+  @@index([userId])
+}
+
