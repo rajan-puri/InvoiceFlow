@@ -15,9 +15,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase().trim() },
+    const normalizedEmail = email.toLowerCase().trim();
+    let user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
     });
+
+    // Support both new InvoBazar and existing demo/admin credentials
+    if (!user && (normalizedEmail === "demo@invobazar.in" || normalizedEmail === "admin@invobazar.in")) {
+      user = await prisma.user.findUnique({
+        where: { email: "demo@invoiceflow.io" },
+      });
+    }
 
     if (!user) {
       return NextResponse.json(
