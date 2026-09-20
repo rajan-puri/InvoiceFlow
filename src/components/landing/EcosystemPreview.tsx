@@ -11,15 +11,15 @@ import {
 
 export default function EcosystemPreview() {
   return (
-    <section className="py-24 bg-slate-900 text-white border-b border-slate-800">
+    <section className="py-12 sm:py-20 lg:py-24 bg-slate-900 text-white border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold tracking-wider uppercase">
             <span>Unified Architecture</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
             One Connected Workspace.
           </h2>
           <p className="text-base sm:text-lg text-slate-400 leading-relaxed">

@@ -31,15 +31,15 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-24 bg-slate-50/60 border-b border-slate-200/80">
+    <section id="how-it-works" className="py-12 sm:py-20 lg:py-24 bg-slate-50/60 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-20">
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-semibold tracking-wider uppercase">
             <span>Simple 4-Step Process</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
             From Client Details to PDF in 4 Simple Steps
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
@@ -53,11 +53,11 @@ export default function HowItWorks() {
           {/* Connecting Line behind numbers (desktop) */}
           <div className="hidden lg:block absolute top-10 left-12 right-12 h-0.5 bg-slate-200 z-0" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
             {steps.map((step, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between space-y-6 hover:border-slate-300 transition-colors"
+                className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs flex flex-col justify-between space-y-5 sm:space-y-6 hover:border-slate-300 transition-colors"
               >
                 <div className="space-y-4">
                   <div className="w-12 h-12 rounded-xl bg-slate-900 text-white font-mono font-bold text-base flex items-center justify-center shadow-sm">

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
-import { signToken, COOKIE_NAME } from "@/lib/auth";
+import { sendVerificationOtpEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,8 +16,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+
     const existingUser = await prisma.user.findUnique({
-      where: { email: email.toLowerCase().trim() },
+      where: { email: normalizedEmail },
     });
 
     if (existingUser) {
@@ -28,15 +31,14 @@ export async function POST(req: NextRequest) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Generate 6-digit verification code and token
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const verificationToken = crypto.randomUUID();
-    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    // Generate secure 6-digit verification OTP and 15-minute expiry
+    const verificationCode = crypto.randomInt(100000, 1000000).toString();
+    const verificationExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes expiry
 
     const user = await prisma.user.create({
       data: {
         name: name.trim(),
-        email: email.toLowerCase().trim(),
+        email: normalizedEmail,
         passwordHash,
         companyName: companyName?.trim() || null,
         phone: phone?.trim() || null,
@@ -45,7 +47,7 @@ export async function POST(req: NextRequest) {
         role: "user",
         isEmailVerified: false,
         verificationCode,
-        verificationToken,
+        verificationToken: null,
         verificationExpires,
       },
     });
@@ -89,15 +91,20 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // NOTE: Signup does NOT auto-login. User must verify email first.
+    // Send OTP to the user's registered email via Resend
+    await sendVerificationOtpEmail({
+      to: user.email,
+      name: user.name,
+      otp: verificationCode,
+    });
+
+    // Strictly return only safe public information. OTP is NEVER exposed in the API response.
     return NextResponse.json(
       {
         success: true,
         requiresVerification: true,
-        message: "Account created successfully. Please verify your email address to continue.",
+        message: "Account created successfully. A 6-digit verification code has been sent to your email.",
         email: user.email,
-        verificationCode: user.verificationCode,
-        verificationToken: user.verificationToken,
       },
       { status: 201 }
     );

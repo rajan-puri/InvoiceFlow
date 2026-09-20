@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TestimonialSection() {
   return (
-    <section className="py-20 bg-white border-b border-slate-100">
+    <section className="py-12 sm:py-20 bg-white border-b border-slate-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
         <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
           User Experience

@@ -103,18 +103,18 @@ export default function InvoicePreview({
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
             {/* Template Selector Dropdown */}
             {templates.length > 0 && (
-              <div className="flex items-center gap-1.5">
-                <Palette className="w-4 h-4 text-slate-400" />
+              <div className="col-span-2 sm:col-span-1 flex items-center gap-1.5 w-full sm:w-auto">
+                <Palette className="w-4 h-4 text-slate-400 shrink-0" />
                 <select
                   value={activeTemplate.id}
                   onChange={(e) => {
                     const chosen = templates.find((t) => t.id === e.target.value);
                     if (chosen) setActiveTemplate(chosen);
                   }}
-                  className="px-2.5 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full sm:w-auto px-2.5 py-2 sm:py-1.5 text-xs font-semibold bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {templates.map((t) => (
                     <option key={t.id} value={t.id}>
@@ -127,27 +127,27 @@ export default function InvoicePreview({
 
             <Link
               href="/templates"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors shadow-sm"
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors shadow-sm text-center"
               title="Open Template Customizer Editor"
             >
-              <Sliders className="w-3.5 h-3.5 text-blue-600" />
-              <span>Customize Design</span>
+              <Sliders className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+              <span>Customize</span>
+            </Link>
+
+            <Link
+              href={`/invoices/${invoice.id}/edit`}
+              className="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-sm text-center"
+            >
+              Edit
             </Link>
 
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors shadow-sm"
+              className="col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 sm:py-1.5 text-xs font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors shadow-sm w-full sm:w-auto"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>Print / Save as PDF</span>
+              <span>Print / Save PDF</span>
             </button>
-
-            <Link
-              href={`/invoices/${invoice.id}/edit`}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
-            >
-              Edit Invoice
-            </Link>
           </div>
         </div>
       )}

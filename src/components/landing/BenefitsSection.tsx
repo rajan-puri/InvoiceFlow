@@ -30,15 +30,15 @@ export default function BenefitsSection() {
   ];
 
   return (
-    <section className="py-24 bg-white border-b border-slate-100">
+    <section className="py-12 sm:py-20 lg:py-24 bg-white border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-semibold tracking-wider uppercase">
             <span>Direct Business Impact</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
             Spend Less Time Preparing Invoices. <br className="hidden sm:inline" />
             More Time Running Your Business.
           </h2>
@@ -49,11 +49,11 @@ export default function BenefitsSection() {
         </div>
 
         {/* 4 Benefits Layout (Clean 2x2 with clear typographic hierarchy) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
           {benefits.map((b, i) => (
             <div
               key={i}
-              className="p-8 rounded-2xl border border-slate-200 bg-slate-50/40 hover:bg-slate-50/80 transition-colors flex flex-col justify-between space-y-6"
+              className="p-5 sm:p-8 rounded-2xl border border-slate-200 bg-slate-50/40 hover:bg-slate-50/80 transition-colors flex flex-col justify-between space-y-5 sm:space-y-6"
             >
               <div className="space-y-3">
                 <span className="text-xs font-mono font-bold text-blue-600 uppercase tracking-widest block">

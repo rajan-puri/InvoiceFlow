@@ -4,12 +4,12 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export default function CtaSection() {
   return (
-    <section className="py-24 bg-slate-50/70 border-b border-slate-200/80">
+    <section className="py-12 sm:py-20 lg:py-24 bg-slate-50/70 border-b border-slate-200/80">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-14 text-center space-y-8 shadow-sm">
+        <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-12 lg:p-14 text-center space-y-6 sm:space-y-8 shadow-sm">
           
           <div className="space-y-4 max-w-2xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
               Ready to Simplify Your Invoicing?
             </h2>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">

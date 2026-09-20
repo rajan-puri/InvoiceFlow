@@ -87,6 +87,7 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
         <div className="p-4">
           <Link
             href="/invoices/new"
+            onClick={() => onClose()}
             className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium shadow-sm shadow-blue-600/30 transition-colors"
           >
             <PlusCircle className="w-4 h-4" />

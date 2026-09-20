@@ -50,28 +50,28 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 rounded-2xl p-6 sm:p-8 text-white shadow-lg shadow-blue-600/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 rounded-2xl p-5 sm:p-8 text-white shadow-lg shadow-blue-600/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 sm:gap-6">
         <div className="space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          <h2 className="text-xl sm:text-3xl font-bold tracking-tight">
             Welcome to InvoBazar
           </h2>
-          <p className="text-blue-100 text-sm max-w-xl">
+          <p className="text-blue-100 text-xs sm:text-sm max-w-xl">
             Smart Invoicing for Indian Businesses. Create, preview, and download professional
             GST Proforma and Tax Invoices with accurate tax compliance.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
           <Link
             href="/invoices/new?type=PROFORMA"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-blue-700 font-semibold text-sm shadow-md hover:bg-blue-50 transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white text-blue-700 font-semibold text-xs sm:text-sm shadow-md hover:bg-blue-50 transition-colors"
           >
             <Plus className="w-4 h-4" />
             Create Proforma
           </Link>
           <Link
             href="/invoices/new?type=TAX_INVOICE"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-900/60 hover:bg-blue-900 text-white font-semibold text-sm border border-blue-400/30 transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-900/60 hover:bg-blue-900 text-white font-semibold text-xs sm:text-sm border border-blue-400/30 transition-colors"
           >
             <Plus className="w-4 h-4" />
             Create Tax Invoice
@@ -219,28 +219,24 @@ export default function DashboardPage() {
             Loading recent invoices...
           </div>
         ) : stats?.recentInvoices && stats.recentInvoices.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
-                <tr>
-                  <th className="py-3 px-6">Invoice #</th>
-                  <th className="py-3 px-4">Type</th>
-                  <th className="py-3 px-6">Client</th>
-                  <th className="py-3 px-6">Date</th>
-                  <th className="py-3 px-4 text-right">Grand Total</th>
-                  <th className="py-3 px-4 text-center">Status</th>
-                  <th className="py-3 px-6 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {stats.recentInvoices.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="py-3.5 px-6 font-mono font-medium text-blue-600">
-                      <Link href={`/invoices/${inv.id}`} className="hover:underline">
+          <>
+            {/* Mobile Card View */}
+            <div className="block md:hidden divide-y divide-slate-100">
+              {stats.recentInvoices.map((inv) => (
+                <div key={inv.id} className="p-4 space-y-2.5 hover:bg-slate-50/50 transition-colors">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <Link
+                        href={`/invoices/${inv.id}`}
+                        className="font-mono font-bold text-sm text-blue-600 hover:underline block truncate"
+                      >
                         {inv.invoiceNumber}
                       </Link>
-                    </td>
-                    <td className="py-3.5 px-4">
+                      <h4 className="font-semibold text-slate-900 text-sm mt-0.5 truncate">
+                        {inv.clientCompanyName}
+                      </h4>
+                    </div>
+                    <div className="flex flex-col items-end gap-1 flex-shrink-0">
                       <span
                         className={`inline-block px-2 py-0.5 text-[10px] font-bold rounded-full border ${
                           inv.documentType === "TAX_INVOICE"
@@ -250,46 +246,111 @@ export default function DashboardPage() {
                       >
                         {inv.documentType === "TAX_INVOICE" ? "Tax Invoice" : "Proforma"}
                       </span>
-                    </td>
-                    <td className="py-3.5 px-6">
-                      <div className="font-semibold text-slate-800">
-                        {inv.clientCompanyName}
-                      </div>
-                      {inv.clientContactPerson && (
-                        <div className="text-xs text-slate-500">
-                          {inv.clientContactPerson}
-                        </div>
-                      )}
-                    </td>
-                    <td className="py-3.5 px-6 text-slate-600 text-xs">
-                      {formatDate(inv.issueDate)}
-                    </td>
-                    <td className="py-3.5 px-4 text-right font-bold text-slate-900">
-                      {formatCurrency(inv.grandTotal)}
-                    </td>
-                    <td className="py-3.5 px-4 text-center">
                       <span
-                        className={`inline-block px-2.5 py-0.5 text-[11px] font-semibold rounded-full border ${
+                        className={`inline-block px-2 py-0.5 text-[10px] font-semibold rounded-full border ${
                           statusBadges[inv.status] || statusBadges.DRAFT
                         }`}
                       >
                         {inv.status}
                       </span>
-                    </td>
-                    <td className="py-3.5 px-6 text-right">
-                      <Link
-                        href={`/invoices/${inv.id}`}
-                        className="inline-flex items-center gap-1 text-xs font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100 px-2 py-1 rounded transition-colors"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        Preview
-                      </Link>
-                    </td>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs text-slate-500 pt-1 border-t border-slate-100">
+                    <div>
+                      <span>Date: {formatDate(inv.issueDate)}</span>
+                    </div>
+                    <div className="text-right font-bold text-slate-900 text-sm">
+                      {formatCurrency(inv.grandTotal)}
+                    </div>
+                  </div>
+
+                  <div className="pt-1 flex justify-end">
+                    <Link
+                      href={`/invoices/${inv.id}`}
+                      className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      View Invoice
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+                  <tr>
+                    <th className="py-3 px-6">Invoice #</th>
+                    <th className="py-3 px-4">Type</th>
+                    <th className="py-3 px-6">Client</th>
+                    <th className="py-3 px-6">Date</th>
+                    <th className="py-3 px-4 text-right">Grand Total</th>
+                    <th className="py-3 px-4 text-center">Status</th>
+                    <th className="py-3 px-6 text-right">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {stats.recentInvoices.map((inv) => (
+                    <tr key={inv.id} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-3.5 px-6 font-mono font-medium text-blue-600">
+                        <Link href={`/invoices/${inv.id}`} className="hover:underline">
+                          {inv.invoiceNumber}
+                        </Link>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span
+                          className={`inline-block px-2 py-0.5 text-[10px] font-bold rounded-full border ${
+                            inv.documentType === "TAX_INVOICE"
+                              ? "bg-blue-50 text-blue-700 border-blue-200"
+                              : "bg-purple-50 text-purple-700 border-purple-200"
+                          }`}
+                        >
+                          {inv.documentType === "TAX_INVOICE" ? "Tax Invoice" : "Proforma"}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-6">
+                        <div className="font-semibold text-slate-800">
+                          {inv.clientCompanyName}
+                        </div>
+                        {inv.clientContactPerson && (
+                          <div className="text-xs text-slate-500">
+                            {inv.clientContactPerson}
+                          </div>
+                        )}
+                      </td>
+                      <td className="py-3.5 px-6 text-slate-600 text-xs">
+                        {formatDate(inv.issueDate)}
+                      </td>
+                      <td className="py-3.5 px-4 text-right font-bold text-slate-900">
+                        {formatCurrency(inv.grandTotal)}
+                      </td>
+                      <td className="py-3.5 px-4 text-center">
+                        <span
+                          className={`inline-block px-2.5 py-0.5 text-[11px] font-semibold rounded-full border ${
+                            statusBadges[inv.status] || statusBadges.DRAFT
+                          }`}
+                        >
+                          {inv.status}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-6 text-right">
+                        <Link
+                          href={`/invoices/${inv.id}`}
+                          className="inline-flex items-center gap-1 text-xs font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100 px-2 py-1 rounded transition-colors"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          Preview
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         ) : (
           <div className="p-12 text-center space-y-3">
             <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center">

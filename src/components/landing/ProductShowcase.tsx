@@ -15,19 +15,19 @@ import Link from "next/link";
 
 export default function ProductShowcase() {
   return (
-    <section id="product" className="py-24 bg-white space-y-28">
+    <section id="product" className="py-12 sm:py-20 lg:py-24 bg-white space-y-16 sm:space-y-24 lg:space-y-28">
       
       {/* ------------------------------------------------------------- */}
       {/* SHOWCASE 1: Manage Your Product Catalog */}
       {/* ------------------------------------------------------------- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           <div className="lg:col-span-5 space-y-4">
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
               Module 01: Product Catalog
             </span>
-            <h3 className="text-3xl font-black text-slate-950 tracking-tight leading-tight">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight">
               Manage Your Product Catalog
             </h3>
             <p className="text-base text-slate-600 leading-relaxed">
@@ -244,7 +244,7 @@ export default function ProductShowcase() {
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
               Module 02: Client Master
             </span>
-            <h3 className="text-3xl font-black text-slate-950 tracking-tight leading-tight">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight">
               Keep Client Details Ready
             </h3>
             <p className="text-base text-slate-600 leading-relaxed">
@@ -280,7 +280,7 @@ export default function ProductShowcase() {
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
               Module 03: Calculation Engine
             </span>
-            <h3 className="text-3xl font-black text-slate-950 tracking-tight leading-tight">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight">
               Create Accurate GST Invoices
             </h3>
             <p className="text-base text-slate-600 leading-relaxed">
@@ -309,7 +309,7 @@ export default function ProductShowcase() {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="rounded-2xl border border-slate-200 bg-white shadow-xl p-5 sm:p-6 space-y-4">
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-xl p-4 sm:p-6 space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div>
                   <span className="text-[11px] font-mono font-bold text-blue-600">
@@ -371,12 +371,12 @@ export default function ProductShowcase() {
       {/* SHOWCASE 4: Generate Professional PDFs */}
       {/* ------------------------------------------------------------- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           <div className="lg:col-span-7 order-2 lg:order-1">
             {/* Sheet Mockup */}
-            <div className="rounded-2xl border border-slate-300 bg-white shadow-xl p-6 sm:p-8 text-slate-800 space-y-6">
-              <div className="flex justify-between items-start border-b border-slate-200 pb-4">
+            <div className="rounded-2xl border border-slate-300 bg-white shadow-xl p-4 sm:p-8 text-slate-800 space-y-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start border-b border-slate-200 pb-4 gap-3">
                 <div>
                   <span className="px-2.5 py-0.5 bg-blue-600 text-white text-[10px] font-bold uppercase rounded">
                     PROFORMA INVOICE
@@ -391,7 +391,7 @@ export default function ProductShowcase() {
                     DLF Cyber City, Tower 10, Sector 24, Gurugram, Haryana - 122002
                   </p>
                 </div>
-                <div className="text-right text-xs">
+                <div className="text-left sm:text-right text-xs">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Invoice Number</p>
                   <p className="font-mono font-bold text-blue-600 text-sm">PI-2026-001</p>
                   <p className="text-[11px] text-slate-500 mt-1">Date: 20 Sep 2026</p>
@@ -400,7 +400,7 @@ export default function ProductShowcase() {
               </div>
 
               {/* Bill To */}
-              <div className="grid grid-cols-2 gap-4 text-xs border-b border-slate-200 pb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs border-b border-slate-200 pb-4">
                 <div>
                   <span className="text-[10px] font-bold uppercase text-blue-600 block mb-1">
                     Bill To / Buyer
@@ -420,8 +420,8 @@ export default function ProductShowcase() {
               </div>
 
               {/* Items */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs border-collapse min-w-[420px]">
+              <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+                <table className="w-full text-left text-xs border-collapse min-w-[380px] sm:min-w-0">
                   <thead>
                     <tr className="border-b border-slate-200 text-[10px] uppercase font-bold text-slate-500">
                       <th className="py-2">Item</th>
@@ -456,7 +456,7 @@ export default function ProductShowcase() {
                   Thank you for your business. System generated proforma.
                 </span>
                 <div className="text-right">
-                  <div className="w-32 border-b border-slate-300 mb-1" />
+                  <div className="w-32 border-b border-slate-300 mb-1 ml-auto" />
                   <span className="text-[10px] font-semibold text-slate-700 block">
                     Authorized Signatory
                   </span>
@@ -469,7 +469,7 @@ export default function ProductShowcase() {
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded border border-blue-200">
               Module 04: Legal PDF Output
             </span>
-            <h3 className="text-3xl font-black text-slate-950 tracking-tight leading-tight">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight">
               Generate Professional PDFs
             </h3>
             <p className="text-base text-slate-600 leading-relaxed">

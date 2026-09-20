@@ -4,38 +4,27 @@ import { prisma } from "@/lib/db";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { email, code, token } = body;
+    const { email, code } = body;
 
-    if (!email && !token) {
+    if (!email || typeof email !== "string") {
       return NextResponse.json(
-        { error: "Email or verification token is required" },
+        { error: "Email address is required" },
         { status: 400 }
       );
     }
 
-    let user;
-
-    if (token) {
-      user = await prisma.user.findFirst({
-        where: { verificationToken: token },
-      });
-    } else if (email && code) {
-      user = await prisma.user.findUnique({
-        where: { email: email.toLowerCase().trim() },
-      });
-
-      if (user && user.verificationCode !== code.trim()) {
-        return NextResponse.json(
-          { error: "Invalid verification code. Please check and try again." },
-          { status: 400 }
-        );
-      }
-    } else {
+    if (!code || typeof code !== "string" || !/^\d{6}$/.test(code.trim())) {
       return NextResponse.json(
-        { error: "Please provide the 6-digit verification code" },
+        { error: "Please provide a valid 6-digit verification code" },
         { status: 400 }
       );
     }
+
+    const normalizedEmail = email.toLowerCase().trim();
+
+    const user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+    });
 
     if (!user) {
       return NextResponse.json(
@@ -52,14 +41,29 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    if (user.verificationExpires && new Date(user.verificationExpires) < new Date()) {
+    if (!user.verificationCode || !user.verificationExpires) {
+      return NextResponse.json(
+        { error: "No pending verification code found. Please request a new code." },
+        { status: 400 }
+      );
+    }
+
+    if (new Date(user.verificationExpires) < new Date()) {
       return NextResponse.json(
         { error: "Verification code has expired. Please request a new code." },
         { status: 410 }
       );
     }
 
-    // Mark as verified
+    // Verify OTP securely
+    if (user.verificationCode !== code.trim()) {
+      return NextResponse.json(
+        { error: "Invalid verification code. Please check and try again." },
+        { status: 400 }
+      );
+    }
+
+    // Mark user as verified and clear verification secrets
     await prisma.user.update({
       where: { id: user.id },
       data: {

@@ -75,15 +75,15 @@ export default function ProductOverview() {
   ];
 
   return (
-    <section id="features" className="py-20 bg-slate-50/50 border-b border-slate-200/80">
+    <section id="features" className="py-12 sm:py-20 bg-slate-50/50 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-semibold tracking-wider uppercase">
             <span>Complete Invoicing Architecture</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
             Everything You Need to Manage Your Invoicing Workflow
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
@@ -97,7 +97,7 @@ export default function ProductOverview() {
           {capabilities.map((cap, i) => (
             <div
               key={i}
-              className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 hover:border-slate-300 transition-colors shadow-xs"
+              className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-8 hover:border-slate-300 transition-colors shadow-xs"
             >
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                 

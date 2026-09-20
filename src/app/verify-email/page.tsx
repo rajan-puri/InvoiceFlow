@@ -3,65 +3,27 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FileSpreadsheet, Mail, CheckCircle2, ArrowRight, RefreshCw, AlertCircle, ShieldCheck } from "lucide-react";
+import { FileSpreadsheet, Mail, CheckCircle2, ArrowRight, RefreshCw, AlertCircle, KeyRound } from "lucide-react";
 
 function VerifyEmailForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const queryEmail = searchParams.get("email") || "";
-  const queryToken = searchParams.get("token") || "";
-  const queryCode = searchParams.get("code") || "";
 
   const [email, setEmail] = useState(queryEmail);
-  const [code, setCode] = useState(queryCode);
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [infoMessage, setInfoMessage] = useState("");
-  const [devCode, setDevCode] = useState<string | null>(null);
-
-  // Auto-verify if token is present in the URL
-  useEffect(() => {
-    if (queryToken) {
-      handleAutoVerifyToken(queryToken);
-    }
-  }, [queryToken]);
 
   useEffect(() => {
     if (queryEmail) {
       setEmail(queryEmail);
     }
-    if (queryCode) {
-      setCode(queryCode);
-    }
-  }, [queryEmail, queryCode]);
-
-  const handleAutoVerifyToken = async (token: string) => {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("/api/auth/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Verification failed");
-      }
-      setSuccess(true);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Invalid or expired verification token.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [queryEmail]);
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,11 +89,8 @@ function VerifyEmailForm() {
         throw new Error(data.error || "Failed to resend code");
       }
 
-      setInfoMessage(data.message || "New verification code has been dispatched.");
-      if (data.verificationCode) {
-        setDevCode(data.verificationCode);
-        setCode(data.verificationCode);
-      }
+      setInfoMessage(data.message || "A new 6-digit verification code has been sent to your email address.");
+      setCode("");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -158,22 +117,9 @@ function VerifyEmailForm() {
           </div>
           <h2 className="text-xl font-bold text-white">Verify Your Email Address</h2>
           <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
-            To safeguard your business financial records and enable proforma generation, verify your account.
+            Please enter the 6-digit verification code sent to your email to activate your account.
           </p>
         </div>
-
-        {/* Development Helper Banner */}
-        {devCode && (
-          <div className="p-3.5 bg-blue-950/50 border border-blue-800/80 rounded-xl text-blue-200 text-xs flex items-start gap-2.5">
-            <ShieldCheck className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
-            <div>
-              <p className="font-semibold text-blue-300">Development Mode Notice</p>
-              <p className="text-blue-200/90 mt-0.5">
-                Verification code for this account: <strong className="font-mono text-white text-sm tracking-wider px-1.5 py-0.5 bg-blue-900/60 rounded border border-blue-700">{devCode}</strong>
-              </p>
-            </div>
-          </div>
-        )}
 
         {infoMessage && (
           <div className="p-3 text-xs text-blue-300 bg-blue-950/40 border border-blue-800/60 rounded-xl flex items-center gap-2">
@@ -231,23 +177,27 @@ function VerifyEmailForm() {
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
                 6-Digit Verification Code
               </label>
-              <input
-                type="text"
-                required
-                maxLength={6}
-                value={code}
-                onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
-                placeholder="123456"
-                className="w-full px-3.5 py-2.5 text-center text-xl tracking-[0.3em] font-mono bg-slate-800/80 border border-slate-700 text-white placeholder-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold"
-              />
-              <p className="text-[11px] text-slate-500 mt-1 text-center">
-                Enter the 6 digits issued during registration
+              <div className="relative">
+                <input
+                  type="text"
+                  required
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  maxLength={6}
+                  value={code}
+                  onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                  placeholder="------"
+                  className="w-full px-3.5 py-2.5 text-center text-xl tracking-[0.35em] font-mono bg-slate-800/80 border border-slate-700 text-white placeholder-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold"
+                />
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1.5 text-center">
+                Check your inbox and enter the 6-digit code
               </p>
             </div>
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || code.length !== 6}
               className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white bg-blue-600 hover:bg-blue-500 font-medium shadow-md shadow-blue-600/30 transition-all disabled:opacity-50 mt-2"
             >
               <span>{loading ? "Verifying..." : "Verify & Activate Account"}</span>
@@ -262,7 +212,7 @@ function VerifyEmailForm() {
                 className="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 transition-colors disabled:opacity-50"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${resending ? "animate-spin" : ""}`} />
-                <span>{resending ? "Generating new code..." : "Resend verification code"}</span>
+                <span>{resending ? "Sending new code..." : "Resend verification code"}</span>
               </button>
 
               <Link href="/login" className="text-xs text-slate-400 hover:text-slate-300">

@@ -65,15 +65,15 @@ export default function BusinessWorkflow() {
   ];
 
   return (
-    <section id="workflow" className="py-24 bg-white border-b border-slate-100">
+    <section id="workflow" className="py-12 sm:py-20 lg:py-24 bg-white border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-semibold tracking-wider uppercase">
             <span>Operational Architecture</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
             A Better Invoicing Workflow for Your Business
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
@@ -87,7 +87,7 @@ export default function BusinessWorkflow() {
           <div className="space-y-4">
             {workflowNodes.map((node, i) => (
               <div key={i} className="relative">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-slate-50/50 transition-all shadow-2xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-slate-50/50 transition-all shadow-2xs">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-lg bg-slate-900 text-white font-mono font-bold text-sm flex items-center justify-center shrink-0">
                       {node.stage}

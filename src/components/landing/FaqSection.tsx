@@ -42,15 +42,15 @@ export default function FaqSection() {
   ];
 
   return (
-    <section id="faq" className="py-24 bg-white border-b border-slate-100">
+    <section id="faq" className="py-12 sm:py-20 lg:py-24 bg-white border-b border-slate-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center space-y-4 mb-16">
+        <div className="text-center space-y-4 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-semibold tracking-wider uppercase">
             <span>Frequently Asked Questions</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
             Everything You Need to Know About InvoBazar
           </h2>
           <p className="text-base text-slate-600">

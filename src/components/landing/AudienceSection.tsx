@@ -43,15 +43,15 @@ export default function AudienceSection() {
   ];
 
   return (
-    <section id="for-businesses" className="py-24 bg-slate-50/50 border-b border-slate-200/80">
+    <section id="for-businesses" className="py-12 sm:py-20 lg:py-24 bg-slate-50/50 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-semibold tracking-wider uppercase">
             <span>Tailored For Your Scale</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
             Built for the Way Modern Businesses Work
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
@@ -65,7 +65,7 @@ export default function AudienceSection() {
           {audiences.map((aud, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:border-slate-300 transition-colors shadow-xs"
+              className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-8 hover:border-slate-300 transition-colors shadow-xs"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div className="lg:col-span-7 space-y-3">

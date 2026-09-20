@@ -105,93 +105,160 @@ export default function ClientsPage() {
         </div>
       </div>
 
-      {/* Clients Table */}
+      {/* Clients Listing: Desktop Table & Mobile Cards */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-12 text-center text-slate-400 text-sm">
             Loading clients...
           </div>
         ) : clients.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
-                <tr>
-                  <th className="py-3 px-6">Company & Contact</th>
-                  <th className="py-3 px-4">Contact Info</th>
-                  <th className="py-3 px-4">GSTIN</th>
-                  <th className="py-3 px-6">Billing Address</th>
-                  <th className="py-3 px-6 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {clients.map((c) => (
-                  <tr key={c.id} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="py-4 px-6">
+          <>
+            {/* Mobile Card View */}
+            <div className="block md:hidden divide-y divide-slate-100">
+              {clients.map((c) => (
+                <div key={c.id} className="p-4 space-y-3 hover:bg-slate-50/50 transition-colors">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
                       <div className="font-semibold text-slate-900 flex items-center gap-2">
                         <Building className="w-4 h-4 text-blue-600 shrink-0" />
-                        <span>{c.companyName}</span>
+                        <span className="truncate text-sm">{c.companyName}</span>
                       </div>
                       {c.contactPerson && (
-                        <div className="text-xs text-slate-500 mt-0.5 ml-6">
+                        <p className="text-xs text-slate-500 mt-0.5 ml-6 truncate">
                           Contact: {c.contactPerson}
-                        </div>
+                        </p>
                       )}
-                    </td>
-                    <td className="py-4 px-4 text-xs space-y-1">
-                      {c.email && (
-                        <div className="flex items-center gap-1.5 text-slate-600">
-                          <Mail className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{c.email}</span>
-                        </div>
-                      )}
-                      {c.phone && (
-                        <div className="flex items-center gap-1.5 text-slate-600">
-                          <Phone className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{c.phone}</span>
-                        </div>
-                      )}
-                    </td>
-                    <td className="py-4 px-4">
-                      {c.gstin ? (
-                        <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-800">
-                          {c.gstin}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-slate-400">Not provided</span>
-                      )}
-                    </td>
-                    <td className="py-4 px-6 text-xs text-slate-600 max-w-xs">
-                      {c.billingAddress ? (
-                        <div className="line-clamp-2 leading-relaxed">
-                          {c.billingAddress}
-                        </div>
-                      ) : (
-                        <span className="text-slate-400">-</span>
-                      )}
-                    </td>
-                    <td className="py-4 px-6 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => handleEdit(c)}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-100 transition-colors"
-                          title="Edit client"
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(c.id, c.companyName)}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
-                          title="Delete client"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                    </div>
+                    {c.gstin ? (
+                      <span className="font-mono text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-800 shrink-0">
+                        {c.gstin}
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div className="space-y-1 text-xs text-slate-600 pl-6">
+                    {c.email && (
+                      <div className="flex items-center gap-1.5 truncate">
+                        <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <span className="truncate">{c.email}</span>
                       </div>
-                    </td>
+                    )}
+                    {c.phone && (
+                      <div className="flex items-center gap-1.5">
+                        <Phone className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <span>{c.phone}</span>
+                      </div>
+                    )}
+                    {c.billingAddress && (
+                      <div className="flex items-start gap-1.5 text-slate-500 pt-0.5">
+                        <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
+                        <span className="line-clamp-2 leading-relaxed">{c.billingAddress}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                    <button
+                      onClick={() => handleEdit(c)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(c.id, c.companyName)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 border border-red-200"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+                  <tr>
+                    <th className="py-3 px-6">Company & Contact</th>
+                    <th className="py-3 px-4">Contact Info</th>
+                    <th className="py-3 px-4">GSTIN</th>
+                    <th className="py-3 px-6">Billing Address</th>
+                    <th className="py-3 px-6 text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {clients.map((c) => (
+                    <tr key={c.id} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="py-4 px-6">
+                        <div className="font-semibold text-slate-900 flex items-center gap-2">
+                          <Building className="w-4 h-4 text-blue-600 shrink-0" />
+                          <span>{c.companyName}</span>
+                        </div>
+                        {c.contactPerson && (
+                          <div className="text-xs text-slate-500 mt-0.5 ml-6">
+                            Contact: {c.contactPerson}
+                          </div>
+                        )}
+                      </td>
+                      <td className="py-4 px-4 text-xs space-y-1">
+                        {c.email && (
+                          <div className="flex items-center gap-1.5 text-slate-600">
+                            <Mail className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{c.email}</span>
+                          </div>
+                        )}
+                        {c.phone && (
+                          <div className="flex items-center gap-1.5 text-slate-600">
+                            <Phone className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{c.phone}</span>
+                          </div>
+                        )}
+                      </td>
+                      <td className="py-4 px-4">
+                        {c.gstin ? (
+                          <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-800">
+                            {c.gstin}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-slate-400">Not provided</span>
+                        )}
+                      </td>
+                      <td className="py-4 px-6 text-xs text-slate-600 max-w-xs">
+                        {c.billingAddress ? (
+                          <div className="line-clamp-2 leading-relaxed">
+                            {c.billingAddress}
+                          </div>
+                        ) : (
+                          <span className="text-slate-400">-</span>
+                        )}
+                      </td>
+                      <td className="py-4 px-6 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleEdit(c)}
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-slate-100 transition-colors"
+                            title="Edit client"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(c.id, c.companyName)}
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                            title="Delete client"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         ) : (
           <div className="p-12 text-center space-y-3">
             <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center">

@@ -24,7 +24,7 @@ export default function HeroSection() {
               <span>SMART INVOICING FOR INDIAN BUSINESSES</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-black text-slate-950 tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-black text-slate-950 tracking-tight leading-[1.15] sm:leading-[1.12]">
               Create Professional <br />
               <span className="text-blue-600">Proforma & Tax Invoices</span> <br />
               in Minutes.
@@ -212,7 +212,7 @@ export default function HeroSection() {
 
                   {/* Calculations Breakdown */}
                   <div className="flex justify-end pt-1">
-                    <div className="w-56 space-y-1 text-xs">
+                    <div className="w-full sm:w-56 space-y-1 text-xs">
                       <div className="flex justify-between text-slate-600">
                         <span>Subtotal</span>
                         <span className="font-semibold text-slate-800">₹1,30,000.00</span>

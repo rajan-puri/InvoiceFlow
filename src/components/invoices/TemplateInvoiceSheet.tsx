@@ -94,7 +94,7 @@ export default function TemplateInvoiceSheet({
 
   return (
     <div
-      className={`invoice-paper bg-white rounded-xl shadow-lg border border-slate-200 p-8 sm:p-12 text-slate-800 ${fontClass} ${sizeClass} ${className}`}
+      className={`invoice-paper bg-white rounded-xl shadow-lg border border-slate-200 p-4 sm:p-8 lg:p-12 text-slate-800 ${fontClass} ${sizeClass} ${className}`}
       style={{
         ["--primary-color" as any]: primary,
         ["--accent-color" as any]: accent,
@@ -244,7 +244,7 @@ export default function TemplateInvoiceSheet({
             )}
           </div>
 
-          <div className="grid grid-cols-2 border border-slate-300 divide-x divide-slate-300">
+          <div className="grid grid-cols-1 sm:grid-cols-2 border border-slate-300 divide-y sm:divide-y-0 sm:divide-x divide-slate-300">
             <div className="p-4 space-y-1.5">
               <span className="text-[10px] font-bold uppercase text-slate-500 tracking-wider">
                 Seller Details
@@ -298,20 +298,20 @@ export default function TemplateInvoiceSheet({
       {/* ========================================================================= */}
       {layout === "MINIMAL" && (
         <div className="space-y-8">
-          <div className="flex justify-between items-baseline border-b border-slate-200 pb-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-baseline border-b border-slate-200 pb-4 gap-2">
             <div>
               <h1 className="text-2xl font-light tracking-tight text-slate-900">{displayHeaderTitle}</h1>
               {displayHeaderSubtitle && (
                 <p className="text-xs text-slate-400 mt-0.5">{displayHeaderSubtitle}</p>
               )}
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <span className="text-base font-mono text-slate-900 font-bold">{displayInvoiceNumber}</span>
               <p className="text-xs text-slate-400 mt-0.5">{formatDate(invoice.issueDate)}</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
             <div>
               <p className="text-[11px] uppercase tracking-widest text-slate-400 font-medium mb-1">From</p>
               <h3 className="font-semibold text-slate-900">{sellerName}</h3>
@@ -336,7 +336,7 @@ export default function TemplateInvoiceSheet({
       {layout === "EXECUTIVE" && (
         <div className="space-y-5">
           <div
-            className="flex justify-between items-center px-6 py-4 rounded-xl text-white shadow-sm"
+            className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl text-white shadow-sm gap-3"
             style={{ backgroundColor: primary }}
           >
             <div>
@@ -345,7 +345,7 @@ export default function TemplateInvoiceSheet({
                 <p className="text-xs text-white/80">{displayHeaderSubtitle}</p>
               )}
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <p className="text-xs uppercase text-white/70 font-semibold">
                 {isTaxInvoice ? "Tax Invoice No" : "Invoice No"}
               </p>
@@ -353,14 +353,14 @@ export default function TemplateInvoiceSheet({
             </div>
           </div>
 
-          <div className="flex justify-between items-start py-3 border-b-2" style={{ borderColor: primary }}>
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-4 py-3 border-b-2" style={{ borderColor: primary }}>
             <div>
               <h2 className="text-lg font-black text-slate-900">{sellerName}</h2>
               {user?.gstin && <p className="font-mono text-xs font-bold text-slate-700">GSTIN: {user.gstin}</p>}
               {user?.address && <p className="text-xs text-slate-600 max-w-sm mt-0.5 leading-relaxed">{user.address}</p>}
             </div>
 
-            <div className="text-right bg-slate-50 p-3 rounded-lg border border-slate-200">
+            <div className="text-left sm:text-right bg-slate-50 p-3 rounded-lg border border-slate-200 w-full sm:w-auto">
               <p className="text-[10px] font-bold uppercase text-slate-500">
                 {isTaxInvoice ? "Invoice Date" : "Issue Date"}
               </p>
@@ -390,7 +390,7 @@ export default function TemplateInvoiceSheet({
       {/* ========================================================================= */}
       {layout === "EMERALD" && (
         <div className="space-y-5">
-          <div className="flex justify-between items-start pb-6 border-b-2 border-emerald-500">
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-4 pb-6 border-b-2 border-emerald-500">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold mb-2">
                 <ShieldCheck className="w-3.5 h-3.5" />
@@ -401,7 +401,7 @@ export default function TemplateInvoiceSheet({
               {user?.address && <p className="text-xs text-slate-600 max-w-sm mt-0.5 leading-relaxed">{user.address}</p>}
             </div>
 
-            <div className="text-right space-y-1">
+            <div className="text-left sm:text-right space-y-1">
               <h2 className="text-xl font-black" style={{ color: primary }}>{displayHeaderTitle}</h2>
               <p className="text-base font-mono font-bold text-slate-800">{displayInvoiceNumber}</p>
               <p className="text-xs text-slate-500">
@@ -410,7 +410,7 @@ export default function TemplateInvoiceSheet({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-emerald-50/50 border border-emerald-100">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 p-4 rounded-xl bg-emerald-50/50 border border-emerald-100">
             <div>
               <span className="text-[10px] font-bold uppercase text-emerald-800 tracking-wider">Bill To</span>
               <p className="text-sm font-bold text-slate-900 mt-0.5">{invoice.clientCompanyName}</p>
@@ -426,10 +426,10 @@ export default function TemplateInvoiceSheet({
       )}
 
       {/* ========================================================================= */}
-      {/* REWORKED A4 INVOICE ITEMS TABLE WITH FIXED CONTROLLED WIDTHS */}
+      {/* REWORKED A4 INVOICE ITEMS TABLE WITH CONTROLLED WIDTHS & HORIZONTAL SCROLL ON MOBILE */}
       {/* ========================================================================= */}
-      <div className="py-5 overflow-hidden">
-        <table className="w-full text-left border-collapse table-fixed">
+      <div className="py-4 sm:py-5 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+        <table className="w-full text-left border-collapse min-w-[540px] sm:min-w-0 sm:table-fixed">
           {/* Strict Column Width Controls: Item Description gets over 40-50% width */}
           <colgroup>
             {template.showIndex && <col style={{ width: "5%" }} />}

@@ -45,8 +45,7 @@ export default function RegisterPage() {
 
       // Email verification is required before accessing dashboard
       const emailParam = encodeURIComponent(email.trim().toLowerCase());
-      const codeParam = data.verificationCode ? `&code=${encodeURIComponent(data.verificationCode)}` : "";
-      router.push(`/verify-email?email=${emailParam}${codeParam}`);
+      router.push(`/verify-email?email=${emailParam}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

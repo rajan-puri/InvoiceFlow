@@ -21,14 +21,14 @@ export default function ProblemSection() {
   ];
 
   return (
-    <section className="py-20 bg-white border-b border-slate-100">
+    <section className="py-12 sm:py-20 bg-white border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+        <div className="max-w-3xl mx-auto text-center space-y-4 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200 text-xs font-semibold tracking-wider uppercase">
             <span>The Traditional Bottleneck</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
             Stop Building Invoices Manually.
           </h2>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
@@ -38,10 +38,10 @@ export default function ProblemSection() {
         </div>
 
         {/* Visual Workflow Comparison */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
           
           {/* Left: The Fragmented Manual Method */}
-          <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-6 sm:p-8 space-y-6">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4 sm:p-8 space-y-6">
             <div className="flex items-center justify-between border-b border-slate-200 pb-4">
               <div className="flex items-center gap-2">
                 <XCircle className="w-5 h-5 text-red-500" />
@@ -82,7 +82,7 @@ export default function ProblemSection() {
           </div>
 
           {/* Right: The Streamlined InvoBazar Method */}
-          <div className="rounded-2xl border-2 border-blue-600/30 bg-blue-50/20 p-6 sm:p-8 space-y-6">
+          <div className="rounded-2xl border-2 border-blue-600/30 bg-blue-50/20 p-4 sm:p-8 space-y-6">
             <div className="flex items-center justify-between border-b border-blue-200 pb-4">
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-blue-600" />

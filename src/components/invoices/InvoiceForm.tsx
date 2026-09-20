@@ -420,38 +420,39 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
   return (
     <div className="space-y-6">
       {/* Top Bar with Mode Toggle & Save */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm no-print">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm no-print">
+        {/* Form vs Preview Segmented Switch */}
+        <div className="grid grid-cols-2 gap-1 p-1 bg-slate-100 rounded-xl w-full sm:w-auto">
           <button
             type="button"
             onClick={() => setViewMode("form")}
-            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
               viewMode === "form"
-                ? "bg-blue-50 text-blue-700 border border-blue-200 font-semibold"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-white text-blue-700 shadow-xs font-semibold"
+                : "text-slate-600 hover:text-slate-900"
             }`}
           >
             <FileText className="w-4 h-4" />
-            Edit Form
+            <span>Edit Form</span>
           </button>
           <button
             type="button"
             onClick={() => setViewMode("preview")}
-            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
               viewMode === "preview"
-                ? "bg-blue-50 text-blue-700 border border-blue-200 font-semibold"
-                : "text-slate-600 hover:bg-slate-100"
+                ? "bg-white text-blue-700 shadow-xs font-semibold"
+                : "text-slate-600 hover:text-slate-900"
             }`}
           >
             <Eye className="w-4 h-4" />
-            Live Preview
+            <span>Live Preview</span>
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           {templates.length > 0 && (
-            <div className="flex items-center gap-1.5">
-              <Palette className="w-4 h-4 text-slate-400 shrink-0" />
+            <div className="flex items-center gap-1.5 flex-1 sm:flex-initial min-w-[140px]">
+              <Palette className="w-4 h-4 text-slate-400 shrink-0 hidden xs:inline" />
               <select
                 value={selectedTemplateId}
                 onChange={(e) => {
@@ -462,7 +463,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                     setInvoiceNumber(applyInvoicePrefix(invoiceNumber, tmpl.invoicePrefix));
                   }
                 }}
-                className="text-xs font-semibold px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500"
+                className="text-xs font-semibold px-2.5 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 w-full truncate"
               >
                 {templates.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -470,32 +471,25 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   </option>
                 ))}
               </select>
-              <Link
-                href="/templates"
-                className="p-2 text-slate-500 hover:text-blue-600 hover:bg-slate-100 rounded-lg text-xs"
-                title="Open Template Customizer"
-              >
-                Customize
-              </Link>
             </div>
           )}
 
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as Invoice["status"])}
-            className="text-xs font-semibold px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500"
+            className="text-xs font-semibold px-2.5 py-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-blue-500 flex-1 sm:flex-initial"
           >
-            <option value="DRAFT">Status: Draft</option>
-            <option value="SENT">Status: Sent</option>
-            <option value="ACCEPTED">Status: Accepted</option>
-            <option value="DECLINED">Status: Declined</option>
-            <option value="EXPIRED">Status: Expired</option>
+            <option value="DRAFT">Draft</option>
+            <option value="SENT">Sent</option>
+            <option value="ACCEPTED">Accepted</option>
+            <option value="DECLINED">Declined</option>
+            <option value="EXPIRED">Expired</option>
           </select>
 
           <button
             onClick={() => handleSubmit()}
             disabled={saving}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors disabled:opacity-50 ml-auto sm:ml-0"
+            className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2 text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors disabled:opacity-50 w-full sm:w-auto"
           >
             <Save className="w-4 h-4" />
             <span>{saving ? "Saving..." : mode === "edit" ? "Update Invoice" : "Save Invoice"}</span>
@@ -521,7 +515,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
         /* Form Editor Mode */
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Document Type Selector */}
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
               <div>
                 <h3 className="text-base font-bold text-slate-900">
@@ -542,12 +536,12 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {/* Proforma Option */}
               <button
                 type="button"
                 onClick={() => handleDocumentTypeChange("PROFORMA")}
-                className={`p-4 rounded-xl border-2 text-left transition-all flex items-start gap-4 cursor-pointer ${
+                className={`p-3.5 sm:p-4 rounded-xl border-2 text-left transition-all flex items-start gap-3 sm:gap-4 cursor-pointer ${
                   documentType === "PROFORMA"
                     ? "border-purple-600 bg-purple-50/60 shadow-sm ring-1 ring-purple-600"
                     : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
@@ -577,7 +571,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
               <button
                 type="button"
                 onClick={() => handleDocumentTypeChange("TAX_INVOICE")}
-                className={`p-4 rounded-xl border-2 text-left transition-all flex items-start gap-4 cursor-pointer ${
+                className={`p-3.5 sm:p-4 rounded-xl border-2 text-left transition-all flex items-start gap-3 sm:gap-4 cursor-pointer ${
                   documentType === "TAX_INVOICE"
                     ? "border-blue-600 bg-blue-50/60 shadow-sm ring-1 ring-blue-600"
                     : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
@@ -606,13 +600,13 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
           </div>
 
           {/* Card 1: Invoice Meta */}
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
             <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
               {documentType === "TAX_INVOICE"
                 ? "1. Tax Invoice Details"
                 : "1. Proforma Invoice Details"}
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
                   Invoice Number *
@@ -623,7 +617,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   value={invoiceNumber}
                   onChange={(e) => setInvoiceNumber(e.target.value)}
                   placeholder={documentType === "TAX_INVOICE" ? "e.g. INV-2026-001" : "e.g. PI-2026-001"}
-                  className="w-full px-3.5 py-2 text-sm font-mono font-medium border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm font-mono font-medium border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -636,7 +630,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   required
                   value={issueDate}
                   onChange={(e) => setIssueDate(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -648,25 +642,25 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   type="date"
                   value={validUntil}
                   onChange={(e) => setValidUntil(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
           </div>
 
           {/* Card 2: Client Selection & Details */}
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 pb-3">
               <h3 className="text-base font-bold text-slate-900">
                 2. Client / Buyer Details
               </h3>
               {clients.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500 font-medium">Auto-fill client:</span>
+                <div className="flex flex-col xs:flex-row xs:items-center gap-1.5 xs:gap-2">
+                  <span className="text-xs text-slate-500 font-medium shrink-0">Auto-fill client:</span>
                   <select
                     value={selectedClientId}
                     onChange={(e) => handleClientSelect(e.target.value)}
-                    className="text-xs font-medium px-3 py-1.5 border border-slate-300 rounded-lg bg-slate-50 text-slate-800 focus:ring-2 focus:ring-blue-500"
+                    className="text-xs font-medium px-3 py-2 border border-slate-300 rounded-lg bg-slate-50 text-slate-800 focus:ring-2 focus:ring-blue-500 w-full xs:w-auto"
                   >
                     <option value="">Select saved client...</option>
                     {clients.map((c) => (
@@ -679,7 +673,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
               )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
                   Company / Buyer Name *
@@ -690,7 +684,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   value={clientCompanyName}
                   onChange={(e) => setClientCompanyName(e.target.value)}
                   placeholder="e.g. Acme Corporation Pvt Ltd"
-                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -703,12 +697,12 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   value={clientGstin}
                   onChange={(e) => setClientGstin(e.target.value.toUpperCase())}
                   placeholder="e.g. 29ABCDE1234F1Z5"
-                  className="w-full px-3.5 py-2 text-sm font-mono border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 uppercase"
+                  className="w-full px-3.5 py-2.5 text-sm font-mono border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 uppercase"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
                   Contact Person
@@ -718,7 +712,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   value={clientContactPerson}
                   onChange={(e) => setClientContactPerson(e.target.value)}
                   placeholder="e.g. Sarah Connor"
-                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -731,7 +725,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
                   placeholder="accounts@acme.com"
-                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -744,12 +738,12 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   value={clientPhone}
                   onChange={(e) => setClientPhone(e.target.value)}
                   placeholder="+91 98765 43210"
-                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
                   Billing Address
@@ -779,7 +773,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
           </div>
 
           {/* Card 3: Line Items (Product Selection & Quantity) */}
-          <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 className="text-base font-bold text-slate-900">
                 3. Products & Line Items
@@ -787,7 +781,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
               <button
                 type="button"
                 onClick={addItem}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors border border-blue-200"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors border border-blue-200"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add Item
@@ -798,46 +792,62 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
               {items.map((item, index) => (
                 <div
                   key={index}
-                  className="p-4 bg-slate-50/70 border border-slate-200 rounded-xl relative space-y-3"
+                  className="p-3.5 sm:p-4 bg-slate-50/80 border border-slate-200 rounded-xl relative space-y-3"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                      Line Item #{index + 1}
-                    </span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div className="flex items-center justify-between w-full sm:w-auto">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                        Line Item #{index + 1}
+                      </span>
+                      {items.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeItem(index)}
+                          className="sm:hidden text-red-500 hover:text-red-700 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
+                          title="Delete line item"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
 
                     {/* Saved Product Picker */}
-                    {products.length > 0 && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-slate-500">Pick saved product:</span>
-                        <select
-                          value={item.productId || ""}
-                          onChange={(e) => handleProductSelect(index, e.target.value)}
-                          className="text-xs font-medium px-2.5 py-1 border border-slate-300 rounded-md bg-white text-slate-800"
-                        >
-                          <option value="">-- Choose Product --</option>
-                          {products.map((p) => (
-                            <option key={p.id} value={p.id}>
-                              {p.name} ({formatCurrency(p.price, userProfile?.currencySymbol || "₹")})
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                      {products.length > 0 && (
+                        <div className="flex items-center gap-1.5 w-full sm:w-auto">
+                          <span className="text-[11px] text-slate-500 whitespace-nowrap shrink-0">Preset:</span>
+                          <select
+                            value={item.productId || ""}
+                            onChange={(e) => handleProductSelect(index, e.target.value)}
+                            className="text-xs font-medium px-2.5 py-1.5 border border-slate-300 rounded-lg bg-white text-slate-800 w-full sm:w-auto truncate"
+                          >
+                            <option value="">-- Choose from Catalog --</option>
+                            {products.map((p) => (
+                              <option key={p.id} value={p.id}>
+                                {p.name} ({formatCurrency(p.price, userProfile?.currencySymbol || "₹")})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
 
-                    {items.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeItem(index)}
-                        className="text-red-500 hover:text-red-700 p-1 rounded transition-colors"
-                        title="Delete line item"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    )}
+                      {items.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeItem(index)}
+                          className="hidden sm:block text-red-500 hover:text-red-700 p-1 rounded transition-colors shrink-0"
+                          title="Delete line item"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-                    <div className="sm:col-span-5">
+                  {/* Desktop and Mobile Responsive Layout for Line Item */}
+                  <div className="grid grid-cols-2 sm:grid-cols-12 gap-3">
+                    {/* Product Name: full width on mobile (col-span-2), 5 cols on desktop */}
+                    <div className="col-span-2 sm:col-span-5">
                       <label className="block text-[11px] font-semibold uppercase text-slate-600 mb-1">
                         Product / Service Name *
                       </label>
@@ -849,11 +859,12 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                           handleItemChange(index, "productName", e.target.value)
                         }
                         placeholder="Item name..."
-                        className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
                       />
                     </div>
 
-                    <div className="sm:col-span-2">
+                    {/* SKU: 1 col on mobile, 2 cols on desktop */}
+                    <div className="col-span-1 sm:col-span-2">
                       <label className="block text-[11px] font-semibold uppercase text-slate-600 mb-1">
                         SKU
                       </label>
@@ -864,11 +875,12 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                           handleItemChange(index, "sku", e.target.value)
                         }
                         placeholder="Code"
-                        className="w-full px-3 py-1.5 text-sm font-mono border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full px-3 py-2 text-sm font-mono border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
                       />
                     </div>
 
-                    <div className="sm:col-span-2">
+                    {/* Unit: 1 col on mobile, 2 cols on desktop */}
+                    <div className="col-span-1 sm:col-span-2">
                       <label className="block text-[11px] font-semibold uppercase text-slate-600 mb-1">
                         Unit
                       </label>
@@ -879,11 +891,12 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                           handleItemChange(index, "unit", e.target.value)
                         }
                         placeholder="PCS"
-                        className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
                       />
                     </div>
 
-                    <div className="sm:col-span-3">
+                    {/* Unit Price: 1 col on mobile, 3 cols on desktop */}
+                    <div className="col-span-1 sm:col-span-3">
                       <label className="block text-[11px] font-semibold uppercase text-slate-600 mb-1">
                         Unit Price (₹) *
                       </label>
@@ -897,28 +910,12 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                           handleItemChange(index, "unitPrice", e.target.value)
                         }
                         placeholder="0.00"
-                        className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-right"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                    <div className="sm:col-span-6">
-                      <label className="block text-[11px] font-semibold uppercase text-slate-600 mb-1">
-                        Description / Specifications
-                      </label>
-                      <input
-                        type="text"
-                        value={item.description || ""}
-                        onChange={(e) =>
-                          handleItemChange(index, "description", e.target.value)
-                        }
-                        placeholder="Additional details, scope, or terms..."
-                        className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-right"
                       />
                     </div>
 
-                    <div className="sm:col-span-2">
+                    {/* Quantity: 1 col on mobile, 2 cols on desktop */}
+                    <div className="col-span-1 sm:col-span-2">
                       <label className="block text-[11px] font-semibold uppercase text-slate-600 mb-1">
                         Quantity *
                       </label>
@@ -931,11 +928,12 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                         onChange={(e) =>
                           handleItemChange(index, "quantity", e.target.value)
                         }
-                        className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-right"
+                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-right"
                       />
                     </div>
 
-                    <div className="sm:col-span-2">
+                    {/* GST Slab: 1 col on mobile, 2 cols on desktop */}
+                    <div className="col-span-1 sm:col-span-2">
                       <label className="block text-[11px] font-semibold uppercase text-slate-600 mb-1">
                         GST %
                       </label>
@@ -944,7 +942,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                         onChange={(e) =>
                           handleItemChange(index, "gstRate", e.target.value)
                         }
-                        className="w-full px-2.5 py-1.5 text-sm border border-slate-300 rounded-lg bg-white"
+                        className="w-full px-2.5 py-2 text-sm border border-slate-300 rounded-lg bg-white"
                       >
                         <option value="0">0%</option>
                         <option value="5">5%</option>
@@ -954,13 +952,30 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                       </select>
                     </div>
 
-                    <div className="sm:col-span-2 text-right">
-                      <span className="block text-[11px] font-semibold uppercase text-slate-500 mb-1">
+                    {/* Line Total display card: 1 col on mobile, 2 cols on desktop */}
+                    <div className="col-span-1 sm:col-span-2 bg-blue-50/80 border border-blue-200/80 rounded-lg p-2 flex flex-col justify-center text-right">
+                      <span className="text-[10px] font-bold uppercase text-blue-700">
                         Line Total
                       </span>
-                      <span className="text-sm font-bold text-slate-900 block py-1.5">
+                      <span className="text-sm font-extrabold text-blue-900 truncate">
                         {formatCurrency(item.lineTotal || 0, userProfile?.currencySymbol || "₹")}
                       </span>
+                    </div>
+
+                    {/* Description: full width on mobile (col-span-2), 6 cols on desktop */}
+                    <div className="col-span-2 sm:col-span-6">
+                      <label className="block text-[11px] font-semibold uppercase text-slate-600 mb-1">
+                        Description / Specifications
+                      </label>
+                      <input
+                        type="text"
+                        value={item.description || ""}
+                        onChange={(e) =>
+                          handleItemChange(index, "description", e.target.value)
+                        }
+                        placeholder="Additional details, scope, or terms..."
+                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                      />
                     </div>
                   </div>
                 </div>
@@ -978,9 +993,9 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
           </div>
 
           {/* Card 4: Summary & Calculations */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
             {/* Notes & Terms */}
-            <div className="lg:col-span-7 bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div className="lg:col-span-7 bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
               <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
                 4. Notes & Terms
               </h3>
@@ -993,7 +1008,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Bank account details, wire instructions, etc."
-                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
                 />
               </div>
 
@@ -1006,28 +1021,28 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                   value={terms}
                   onChange={(e) => setTerms(e.target.value)}
                   placeholder="Delivery terms, warranty terms, validity clause..."
-                  className="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 resize-none"
                 />
               </div>
             </div>
 
             {/* Financial Summary Box */}
-            <div className="lg:col-span-5 bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div className="lg:col-span-5 bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm space-y-4 w-full">
               <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
                 Calculation Summary
               </h3>
 
               <div className="space-y-3 text-sm">
-                <div className="flex justify-between text-slate-600">
-                  <span>Subtotal (Before Tax)</span>
-                  <span className="font-semibold text-slate-800">
+                <div className="flex justify-between items-center text-slate-600">
+                  <span className="text-xs sm:text-sm">Subtotal (Before Tax)</span>
+                  <span className="font-semibold text-slate-800 text-sm sm:text-base">
                     {formatCurrency(subtotal, userProfile?.currencySymbol || "₹")}
                   </span>
                 </div>
 
                 {/* Discount input */}
                 <div className="pt-2 border-t border-slate-100 space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2">
                     <label className="text-xs font-medium text-slate-600">Discount</label>
                     <div className="flex items-center gap-2">
                       <select
@@ -1035,7 +1050,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                         onChange={(e) =>
                           setDiscountType(e.target.value as "PERCENTAGE" | "FIXED")
                         }
-                        className="text-xs border border-slate-300 rounded p-1 bg-slate-50"
+                        className="text-xs border border-slate-300 rounded-lg p-1.5 bg-slate-50 text-slate-700"
                       >
                         <option value="PERCENTAGE">% Percentage</option>
                         <option value="FIXED">Flat (₹)</option>
@@ -1046,7 +1061,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                         step="0.01"
                         value={discountValue}
                         onChange={(e) => setDiscountValue(Number(e.target.value))}
-                        className="w-20 text-xs px-2 py-1 border border-slate-300 rounded text-right"
+                        className="w-20 text-xs px-2.5 py-1.5 border border-slate-300 rounded-lg text-right"
                       />
                     </div>
                   </div>
@@ -1060,24 +1075,24 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                 </div>
 
                 {/* Total GST */}
-                <div className="flex justify-between text-slate-600 pt-2 border-t border-slate-100">
-                  <span>Total GST</span>
-                  <span className="font-semibold text-slate-800">
+                <div className="flex justify-between items-center text-slate-600 pt-2 border-t border-slate-100">
+                  <span className="text-xs sm:text-sm">Total GST</span>
+                  <span className="font-semibold text-slate-800 text-sm sm:text-base">
                     {formatCurrency(totalGst, userProfile?.currencySymbol || "₹")}
                   </span>
                 </div>
 
                 {/* Grand Total */}
-                <div className="pt-3 border-t-2 border-slate-200 flex justify-between items-baseline">
+                <div className="pt-3 border-t-2 border-slate-200 flex justify-between items-baseline bg-slate-50 -mx-4 -mb-2 px-4 py-3 rounded-b-xl">
                   <div>
-                    <span className="text-base font-bold text-slate-900 block">
+                    <span className="text-sm sm:text-base font-bold text-slate-900 block">
                       Grand Total
                     </span>
-                    <span className="text-[11px] text-slate-500">
+                    <span className="text-[10px] sm:text-[11px] text-slate-500">
                       Including taxes & discounts
                     </span>
                   </div>
-                  <span className="text-xl font-extrabold text-blue-600">
+                  <span className="text-lg sm:text-2xl font-extrabold text-blue-600">
                     {formatCurrency(grandTotal, userProfile?.currencySymbol || "₹")}
                   </span>
                 </div>
@@ -1087,7 +1102,7 @@ export default function InvoiceForm({ initialInvoice, mode }: InvoiceFormProps) 
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white bg-blue-600 hover:bg-blue-700 font-medium shadow-sm transition-colors disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-white bg-blue-600 hover:bg-blue-700 font-semibold shadow-sm transition-colors disabled:opacity-50 text-sm"
                 >
                   <Save className="w-4 h-4" />
                   <span>{saving ? "Saving..." : mode === "edit" ? "Update Invoice" : "Create Proforma Invoice"}</span>
