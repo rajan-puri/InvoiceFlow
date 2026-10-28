@@ -1,4 +1,4 @@
-# InvoBazar ⚡
+# InvoBazars ⚡
 
 > Smart Invoicing for Indian Businesses
 
